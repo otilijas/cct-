@@ -22,17 +22,13 @@ from typing import List
 def find_maximum_distance(
     number_of_cities: int, cities_with_train_station: List[int]
 ) -> int:
-    has_station = [False] * number_of_cities
-    for i in cities_with_train_station:
-        has_station[i] = True
-    dist, max_dist = 0, min(cities_with_train_station)
-    for i in range(number_of_cities):
-        if has_station[i] == True:
-            max_dist = max((dist + 1) // 2, max_dist)
-            dist = 0
-        else:
-            dist += 1
-    return max(max_dist, dist)
+    cities = sorted(cities_with_train_station)
+    distances = [
+    	(cities[idx] - cities[idx - 1]) // 2 for idx, _ in enumerate (cities) if idx > 0
+    ]
+    distances.append(cities[0])
+    distances.append(number_of_cities - cities[-1] - 1)
+    return max(distances)
 
 
 if __name__ == "__main__":
